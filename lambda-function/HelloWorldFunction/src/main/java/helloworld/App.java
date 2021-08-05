@@ -18,13 +18,9 @@ public class App implements RequestHandler<S3Event, String> {
 
   Connection conn;
 
-  static final String FROM = "";
+  static final String FROM = "nishanthjava333@gmail.com";
 
-  static final String TO = "";
-
-  static final String CONFIGSET = "ConfigSet";
-
-  static final String SUBJECT = "L";
+  static final String SUBJECT = "UAB Assignment EMAIL";
 
   static final String TEXTBODY = "This email was sent through Amazon SES "
       + "using the AWS SDK for Java.";
@@ -45,8 +41,9 @@ public class App implements RequestHandler<S3Event, String> {
     Optional<String> emails = Optional.ofNullable(fetchEmails(logger, srcKey));
     if (emails.isPresent()) {
       logger.log("emails" + emails.get() + " found for srcKey: " + srcKey);
-      String bucketUrl = "";
-      String HTMLBODY = "<h1> ASSIGNMENT</h1>"
+
+      String bucketUrl = "https://assignment-bucket-1234.s3.us-east-2.amazonaws.com/";
+      String HTMLBODY = "<h1>UAB ASSIGNMENT</h1>"
           + "<p>Download your file from here : <a href='" + bucketUrl +srcKey+"'>"
           + bucketUrl +srcKey+"</a>";
       try {
@@ -54,10 +51,10 @@ public class App implements RequestHandler<S3Event, String> {
             AmazonSimpleEmailServiceClientBuilder.standard()
                 // Replace US_WEST_2 with the AWS Region you're using for
                 // Amazon SES.
-                .withRegion(Regions.AP_SOUTH_1).build();
+                .withRegion(Regions.US_EAST_2).build();
         SendEmailRequest request = new SendEmailRequest()
             .withDestination(
-                new Destination().withToAddresses(TO))
+                new Destination().withToAddresses(emails.get().split(",")))
             .withMessage(new Message()
                 .withBody(new Body()
                     .withHtml(new Content()
@@ -67,9 +64,7 @@ public class App implements RequestHandler<S3Event, String> {
                 .withSubject(new Content()
                     .withCharset("UTF-8").withData(SUBJECT)))
             .withSource(FROM);
-//            // Comment or remove the next line if you are not using a
-//            // configuration set
-//            .withConfigurationSetName(CONFIGSET);
+
         client.sendEmail(request);
         logger.log("Email sent!");
       } catch (Exception ex) {
@@ -116,11 +111,12 @@ public class App implements RequestHandler<S3Event, String> {
 
   private static Connection getRemoteConnection() {
     try {
-      String dbName = "";
-      String userName = "";
-      String password = "";
-      String hostname = "";
-      String port = "";
+
+      String dbName = "file_db";
+      String userName = "postgres";
+      String password = "postgres";
+      String hostname = "database-1.cr9vqmltulpm.us-east-2.rds.amazonaws.com";
+      String port = "5432";
       String jdbcUrl = "jdbc:postgresql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
       return DriverManager.getConnection(jdbcUrl);
     } catch (SQLException e) {

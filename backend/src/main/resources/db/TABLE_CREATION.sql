@@ -1,3 +1,4 @@
+create database file_db;
 create table if not exists upload
 (
     id integer not null
