@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.upload;
+package com.uab.assignment.upload;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

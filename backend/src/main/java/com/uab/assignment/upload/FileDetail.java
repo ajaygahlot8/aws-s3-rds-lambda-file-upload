@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.upload;
+package com.uab.assignment.upload;
 
 import lombok.Setter;
 
