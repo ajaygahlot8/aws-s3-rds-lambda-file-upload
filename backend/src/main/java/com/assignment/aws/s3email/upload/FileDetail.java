@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.upload;
+package com.assignment.aws.s3email.upload;
 
 import lombok.Setter;
 

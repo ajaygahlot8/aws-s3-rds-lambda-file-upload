@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap;
+package com.assignment.aws.s3email;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

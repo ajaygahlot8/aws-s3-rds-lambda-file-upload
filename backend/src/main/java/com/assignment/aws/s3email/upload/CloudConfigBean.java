@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.upload;
+package com.assignment.aws.s3email.upload;
 
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Slf4j
 @Configuration
-public class AWSConfig {
+public class CloudConfigBean {
 
 
   @Bean
-  public AmazonS3 awsS3Client(AWSCredentialsProvider credentialsProvider,
-                              @Value("${cloud.aws.region.static}") String region) {
+  public AmazonS3 clients3(AWSCredentialsProvider credentialsProvider,
+                           @Value("${cloud.aws.region.static}") String region) {
     return AmazonS3ClientBuilder
         .standard()
         .withCredentials(credentialsProvider)
