@@ -1,4 +1,4 @@
-package com.assignment.aws.s3email.upload;
+package com.assignment.aws.s3email.upload.s3;
 
 import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.services.s3.AmazonS3;
@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 @Slf4j
 @Configuration
@@ -14,6 +15,7 @@ public class CloudConfigBean {
 
 
   @Bean
+  @Primary
   public AmazonS3 clients3(AWSCredentialsProvider credentialsProvider,
                            @Value("${cloud.aws.region.static}") String region) {
     return AmazonS3ClientBuilder

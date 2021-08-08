@@ -1,4 +1,4 @@
-package com.assignment.aws.s3email.upload;
+package com.assignment.aws.s3email.upload.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -20,49 +20,50 @@ import java.io.IOException;
 @Slf4j
 @Controller
 @RequestMapping("/")
-public class UploadS3Controller {
+public class S3Controller {
 
-  private final AmazonS3 awsS3Client;
+  private final AmazonS3 aws3ClientData;
 
-  private final FileDetailRepository fileDetailRepository;
+  private final UploadFileDetailRepository uploadFileDetailRepository;
 
   @Value("${bucketName}")
   private String bucketName;
 
-  public UploadS3Controller(AmazonS3 amazonS3Client, FileDetailRepository uploadRepository) {
-    this.awsS3Client = amazonS3Client;
-    this.fileDetailRepository = uploadRepository;
+  public S3Controller(AmazonS3 aws3ClientData, UploadFileDetailRepository uploadFileDetailRepository) {
+    this.aws3ClientData = aws3ClientData;
+    this.uploadFileDetailRepository = uploadFileDetailRepository;
   }
 
   @PostMapping
   public String fileupload(@RequestParam("emails") String emails, @RequestParam("file") MultipartFile multipartFile, RedirectAttributes redirectAttributes) {
-    File file = convertofile(multipartFile);
+    File file = converter(multipartFile);
     String uniqueFileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
-    FileDetail fileDetail = new FileDetail();
-    fileDetail.setFile_name(uniqueFileName);
+    UploadFileDetail fileDetail = new UploadFileDetail();
+    fileDetail.setName(uniqueFileName);
     fileDetail.setEmails(emails);
-    fileDetailRepository.save(fileDetail);
+    uploadFileDetailRepository.save(fileDetail);
     PutObjectRequest request = new PutObjectRequest(bucketName, uniqueFileName, file);
     CannedAccessControlList publicReadRole = CannedAccessControlList.PublicRead;
     request.withCannedAcl(publicReadRole);
-    awsS3Client.putObject(request);
-    redirectAttributes.addFlashAttribute("message", "File sent to your emails please check mailbox!");
+    aws3ClientData.putObject(request);
+    redirectAttributes.addFlashAttribute("message", "Success");
     return "redirect:/";
   }
-
-  @GetMapping
-  public String main() {
-    return "index";
-  }
   
-  private File convertofile(MultipartFile file) {
+  private File converter(MultipartFile file) {
     File convertedFile = new File(file.getOriginalFilename());
     try (FileOutputStream fos = new FileOutputStream(convertedFile)) {
       fos.write(file.getBytes());
     } catch (IOException e) {
-      log.error("Error occurred", e);
+      log.error("Error", e);
     }
     return convertedFile;
+  }
+
+
+  @GetMapping
+  public String getDefaultPage() {
+    return "index";
   }
 
 }

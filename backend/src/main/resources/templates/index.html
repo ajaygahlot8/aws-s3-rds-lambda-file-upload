@@ -9,7 +9,7 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<nav class="navbar navbar-light bg-light  static-top">
     <div class="container">
         <a class="navbar-brand" href="/">AWS upload to s3 and forward to email </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -31,24 +31,25 @@
 
             <form method="POST" enctype="multipart/form-data" action="/">
                 <div class="form-group">
-                    <div class="custom-file">
+                    <div class="custom-file" style="width: 450px;">
+                        <p for="emails">Upload file</p>
                         <input type="file" class="custom-file-input" id="customFile" name="file">
-                        <label class="custom-file-label" for="customFile">Select file</label>
+                        <label class="custom-file-label" for="customFile">Upload file</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div>
-                        <label for="emails">send emails to</label>
+                        <label for="emails">Enter emails</label>
                         <input class="form-control" type="text" id="emails" name="emails">
                     </div>
                 </div>
-                <button class="btn btn-primary" type="submit">Send</button>
+                <button class="btn btn-warning btn-lg" type="submit">Upload</button>
             </form>
         </div>
     </div>
 
 </div>
-<script th:src="@{assets/custom-file-input/bs-custom-file-input.js}"></script>
+<script th:src="@{assets/input-static/custom.js}"></script>
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
