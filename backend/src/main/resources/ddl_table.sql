@@ -9,6 +9,5 @@ create table if not exists filedetail
 );
 
 alter table filedetail owner to postgres;
-
-create unique index if not exists file_file_name_uindex
+create unique index if not exists file_detail_name_uindex
     on filedetail (file_name);
