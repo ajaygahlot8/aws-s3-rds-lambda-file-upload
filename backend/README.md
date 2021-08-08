@@ -1,1 +1,1 @@
-# aws-s3-rds-lambda-file-upload
+upload file using spring boot aws and lambda function

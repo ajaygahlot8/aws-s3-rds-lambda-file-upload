@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.model;
+package com.frontbackend.thymeleaf.bootstrap.upload;
 
 import lombok.Setter;
 
@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Setter
-public class Upload {
+public class FileDetail {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
