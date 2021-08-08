@@ -1,1 +1,1 @@
-lambda function to get trigger on s3 upload , read from rds and send email via ses
+lambda function to trigger emails on s3 create event
