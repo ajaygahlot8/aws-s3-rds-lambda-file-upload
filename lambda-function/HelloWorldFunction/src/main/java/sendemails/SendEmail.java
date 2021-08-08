@@ -17,9 +17,6 @@ import java.util.Optional;
 public class SendEmail implements RequestHandler<S3Event, String> {
 
   Connection conn;
-  static final String SENDER = "nishanthjava333@gmail.com";
-  static final String EMAIL_SUBJECT = "Assignment Email Alert";
-  static final String TEXTBODY = "Email was sent using AWS Lambda";
 
   @Override
   public String handleRequest(S3Event s3Event, Context context) {
@@ -32,8 +29,8 @@ public class SendEmail implements RequestHandler<S3Event, String> {
     if (data.isPresent()) {
       String url = "https://upload-12345-zxs.s3.us-east-2.amazonaws.com/";
       String HTMLBODY = "<h1>Download email triggered from lambda</h1>"
-          + "<p>Click here <a href='" + url +key+"'>"
-          + url +key+"</a>";
+          + "<p>Click here <a href='" + url + key + "'>"
+          + url + key + "</a>";
       sendEmail(log, data, HTMLBODY);
     } else {
       log.log("No data " + key);
@@ -43,6 +40,11 @@ public class SendEmail implements RequestHandler<S3Event, String> {
 
   private void sendEmail(LambdaLogger log, Optional<String> data, String HTMLBODY) {
     try {
+
+      String SENDER = "Raasianumukonda1@gmail.com";
+      final String EMAIL_SUBJECT = "Assignment Email Alert";
+      final String TEXTBODY = "Email was sent using AWS Lambda";
+
       AmazonSimpleEmailService client =
           AmazonSimpleEmailServiceClientBuilder.standard()
               .withRegion(Regions.US_EAST_2).build();
@@ -72,7 +74,8 @@ public class SendEmail implements RequestHandler<S3Event, String> {
       conn = getRemoteConnection();
       if (conn != null) {
         try (Statement readStatement = conn.createStatement()) {
-          ResultSet resultSet = readStatement.executeQuery("SELECT * FROM filedetail where file_name ='" + srcKey + "';");
+          String query = "SELECT * FROM file_detail where file_name ='" + srcKey + "';";
+          ResultSet resultSet = readStatement.executeQuery(query);
           if (resultSet.next()) {
             String emails = resultSet.getString("emails");
             log.log("emails: " + emails);
@@ -100,7 +103,7 @@ public class SendEmail implements RequestHandler<S3Event, String> {
       String dbName = "filedetail_db";
       String user = "postgres";
       String password = "postgres";
-      String host = "database-1.cr9vqmltulpm.us-east-2.rds.amazonaws.com";
+      String host = "db-1.cxqg6q2lngmq.us-east-2.rds.amazonaws.com";
       String port = "5432";
       String jdbcUrl = "jdbc:postgresql://" + host + ":" + port + "/" + dbName + "?user=" + user + "&password=" + password;
       return DriverManager.getConnection(jdbcUrl);

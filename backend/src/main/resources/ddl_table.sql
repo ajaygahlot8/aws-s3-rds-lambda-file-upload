@@ -1,5 +1,5 @@
 create database filedetail_db;
-create table if not exists filedetail
+create table if not exists file_detail
 (
     id integer not null
         constraint file_pk
@@ -8,6 +8,6 @@ create table if not exists filedetail
     emails varchar not null
 );
 
-alter table filedetail owner to postgres;
+alter table file_detail owner to postgres;
 create unique index if not exists file_detail_name_uindex
-    on filedetail (file_name);
+    on file_detail (file_name);
