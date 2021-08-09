@@ -1,4 +1,4 @@
-package com.frontbackend.thymeleaf.bootstrap.model;
+package com.uab.aws.db.model;
 
 import lombok.Setter;
 
@@ -6,15 +6,15 @@ import javax.persistence.*;
 
 @Entity
 @Setter
-public class Upload {
+public class FileUpload {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "file_name")
-  private String file_name;
+  @Column(name = "name_file")
+  private String nameFile;
 
   @Column(name = "emails")
   private String emails;
