@@ -1,0 +1,72 @@
+{
+    "success": true,
+    "data": [
+        {
+            "cp_id": "cp1",
+            "pricing": 1000,
+            "user_state": {
+                "status": "ACTIVATED"
+            },
+            "product": {
+                "id": "p1",
+                "name": "GoCar-APJS",
+                "externalProductCode": "TRAN-0123",
+                "metaData": {
+                    "link": [
+                        {
+                            "text": "tnc",
+                            "url": "https://www.gojek.com/en/terms-of-service/"
+                        },
+                        {
+                            "text": "Product Information",
+                            "url": "https://riplay.prodiginow.com/personal-gojek-simasjiwa?tertanggung=dGVzdEN1c3RvbWVyTmFtZQ=="
+                        }
+                    ],
+                    "benefits": [
+                        {
+                            "type": "medical",
+                            "text": "Medical expenses up to Rp7.000.000"
+                        },
+                        {
+                            "type": "default",
+                            "text": "Easy to cancel, opt-out anytime!"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "cp_id": "cp2",
+            "pricing": 1000,
+            "mapping_type": "single",
+            "user_state": null,
+            "product": {
+                "id": "p2",
+                "name": "GoBike-APJS",
+                "externalProductCode": "Bike-0123",
+                "metaData": {
+                    "link": [
+                        {
+                            "text": "tnc",
+                            "url": "https://www.gojek.com/en/terms-of-service/"
+                        },
+                        {
+                            "text": "Product Information",
+                            "url": "https://riplay.prodiginow.com/personal-gojek-simasjiwa?tertanggung=dGVzdEN1c3RvbWVyTmFtZQ=="
+                        }
+                    ],
+                    "benefits": [
+                        {
+                            "text": "Extra benefits you'll get:",
+                            "type": "title"
+                        },
+                        {
+                            "type": "secured",
+                            "text": "Death & disability coverage up to Rp350m"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
