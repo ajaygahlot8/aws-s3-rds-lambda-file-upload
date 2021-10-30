@@ -2,7 +2,9 @@ package com.frontbackend.thymeleaf.bootstrap.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
+import fi.solita.clamav.ClamAVClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -51,7 +51,7 @@ public class FileUploadController {
   }
 
   @PostMapping
-  public String upload(@RequestParam("file") MultipartFile multipartFile, RedirectAttributes redirectAttributes) {
+  public String upload(@RequestParam("file") MultipartFile multipartFile, RedirectAttributes redirectAttributes) throws IOException {
     File file = convertMultiPartFileToFile(multipartFile);
 
     String uniqueFileName = System.currentTimeMillis() + "_" + multipartFile.getOriginalFilename();
@@ -62,14 +62,22 @@ public class FileUploadController {
     return "redirect:/";
   }
 
-  private void uploadFileToS3bucket(String fileName, File file, String bucketName) {
-    List<Tag> tags = new ArrayList<>();
-    tags.add(new Tag("status", "PROCESSING"));
-    ObjectTagging objectTag = new ObjectTagging(tags);
-    PutObjectRequest request = new PutObjectRequest(bucketName, fileName, file);
-    request.withTagging(objectTag);
-    request.withCannedAcl(CannedAccessControlList.PublicRead);
-    amazonS3Client.putObject(request);
+  private void uploadFileToS3bucket(String fileName, File file, String bucketName) throws IOException {
+
+    ClamAVClient cl = new ClamAVClient("18.220.115.195", 3310);
+    byte[] reply = cl.scan(new FileInputStream(file));
+    if (ClamAVClient.isCleanReply(reply)) {
+      System.out.println("clean");
+    }else {
+      System.out.println("unclean");
+    }
+//    List<Tag> tags = new ArrayList<>();
+//    tags.add(new Tag("status", "PROCESSING"));
+//    ObjectTagging objectTag = new ObjectTagging(tags);
+//    PutObjectRequest request = new PutObjectRequest(bucketName, fileName, file);
+//    request.withTagging(objectTag);
+//    request.withCannedAcl(CannedAccessControlList.PublicRead);
+//    amazonS3Client.putObject(request);
   }
 
   private File convertMultiPartFileToFile(MultipartFile file) {

@@ -81,7 +81,11 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>fi.solita.clamav</groupId>
+            <artifactId>clamav-client</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
     </dependencies>
 

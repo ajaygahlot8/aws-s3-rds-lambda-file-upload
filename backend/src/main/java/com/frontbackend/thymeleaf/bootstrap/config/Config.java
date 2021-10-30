@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class Config {
 
-
   @Bean
   public AmazonS3 amazonS3Client(AWSCredentialsProvider credentialsProvider,
                                  @Value("${cloud.aws.region.static}") String region) {
