@@ -7,12 +7,9 @@ import com.amazonaws.services.lambda.runtime.events.S3Event;
 import com.amazonaws.services.lambda.runtime.events.models.s3.S3EventNotification;
 import fi.solita.clamav.ClamAVClient;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
-
 public class App implements RequestHandler<S3Event, String> {
-
 
   @Override
   public String handleRequest(S3Event s3Event, Context context) {
@@ -21,31 +18,33 @@ public class App implements RequestHandler<S3Event, String> {
     logger.log("EVENT: " + s3Event.toString());
     S3EventNotification.S3EventNotificationRecord record = s3Event.getRecords().get(0);
 
-    String srcBucket = record.getS3().getBucket().getName();
-    String srcKey = record.getS3().getObject().getUrlDecodedKey();
+    String bucketName = record.getS3().getBucket().getName();
+    String fileName = record.getS3().getObject().getUrlDecodedKey();
 
-    logger.log("srcBucket: " + srcBucket);
-    logger.log("srcKey: " + srcKey);
+    logger.log("bucketName: " + bucketName);
+    logger.log("fileName: " + fileName);
 
     S3Service s3Service = new S3Service();
 
-    byte[] file = s3Service.getObjectBytes(srcBucket, srcKey);
+    byte[] file = s3Service.getObjectBytes(bucketName, fileName);
 
     ClamAVClient cl = new ClamAVClient("18.220.115.195", 3310);
+    logger.log("connected to clam av server successfully");
+
     try {
       byte[] reply = cl.scan(file);
       if (ClamAVClient.isCleanReply(reply)) {
-        System.out.println("clean");
-        s3Service.tagExistingObject(srcBucket, srcKey, "status", "SAFE");
+        logger.log("file scan complete :clean ");
+        s3Service.deleteTag(bucketName, fileName);
+        s3Service.createTag(bucketName, fileName, "status", "SAFE");
       } else {
-        System.out.println("unclean");
-        s3Service.tagExistingObject(srcBucket, srcKey, "status", "VIRUS DETECTED");
+        logger.log("file scan complete :virus detected ");
+        s3Service.deleteTag(bucketName, fileName);
+        s3Service.createTag(bucketName, fileName, "status", "VIRUS DETECTED");
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
-    return srcKey;
+    return fileName;
   }
-
-
 }
