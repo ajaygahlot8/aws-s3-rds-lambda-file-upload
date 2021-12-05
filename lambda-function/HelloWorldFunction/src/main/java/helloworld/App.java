@@ -44,7 +44,7 @@ public class App implements RequestHandler<S3Event, String> {
               "<p> Download file here : " + url + encryptFileName + "</p>" +
               "<p> Download key here : " + url + encryptFileName.replace(".encrypt", ".metadata") + "</p>";
 
-          final String sender = "ajay.gahlot.08@gmail.com";
+          final String sender = "govindanaidu890@gmail.com";
           final String emailSubject = "File Encrypted Successfully";
           final String textBody = "This email was sent via Amazon SES "
               + "using the AWS SDK for Java processed from AWS Lambda.";
